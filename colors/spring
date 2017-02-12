@@ -1,0 +1,40 @@
+URxvt.background: #222320
+XTerm*background: #222320
+! *.background: #222324
+URxvt.foreground: #D5D4D0
+XTerm*foreground: #D5D4D0
+! *foreground: #dfdfd9
+
+!black
+*color0:#585858
+*color8:#585858
+
+!red
+*color1:#fd971f
+*color9:#fd971f
+
+!green
+*color2:#95cb29
+*color10:#95cb29
+
+!yellow
+*color3:#9e6ffe
+*color11:#9e6ffe
+
+!blue
+*color4:#1383bb
+*color12:#1383bb
+
+!magenta
+*color5:#ff669d
+*color13:#ff669d
+
+!cyan
+*color6:#5bc3d7
+*color14:#5bc3d7
+
+!white
+*color7:#dfdfd9
+*color15:#dfdfd9
+
+!URxvt.background: rgba:2200/2300/2000/fff0
