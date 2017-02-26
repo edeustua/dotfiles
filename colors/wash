@@ -1,7 +1,7 @@
 ! Colors for feeling cozy in winter
 
 *.background: #292826
-*foreground: #c0b18b
+URxvt*foreground: #c0b18b
 
 !black
 *color0:#443939
