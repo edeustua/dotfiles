@@ -2,6 +2,7 @@
 
 *.background: #292826
 URxvt*foreground: #c0b18b
+XTerm*foreground: #c0b18b
 
 !black
 *color0:#443939

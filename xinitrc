@@ -22,11 +22,12 @@ eval $(/usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh)
 export SSH_AUTH_SOCK
 
 # Start programs
-unclutter -grab -noevents -root &
+unclutter -noevents -root &
 urxvtd &
-sxhkd & 
+sxhkd &
 compton &
 numlockx &
+emacs --daemon
 #conky -c ~/.conkyrc
 #stalonetray
 

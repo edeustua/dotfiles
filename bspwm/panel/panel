@@ -1,0 +1,46 @@
+#!/bin/bash
+
+cd $(dirname $0)
+source $(dirname $0)/config
+
+if [ $(pgrep -cx panel) -gt 1 ] ; then
+    printf "%s\n" "The panel is already running." >&2
+    exit 1
+fi
+
+trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
+
+[ -e "$PANEL_FIFO" ] && rm "$PANEL_FIFO"
+mkfifo "$PANEL_FIFO"
+
+PANEL2_FIFO=/tmp/panel2_fifo
+[ -e "$PANEL2_FIFO" ] && rm  "$PANEL2_FIFO"
+mkfifo "$PANEL2_FIFO"
+
+bspc subscribe > "$PANEL_FIFO" &
+echo "T" >  "$PANEL_FIFO" &
+conky -c ./panel_conky > "$PANEL_FIFO" &
+conky -c ./panel_conky_2 > "$PANEL2_FIFO" &
+#./notify_mpd -d &
+
+cat "$PANEL_FIFO" \
+	| ./panel_bar \
+	| lemonbar \
+		-f "$FONT1"\
+		-f "$FONT2"\
+		-F "$COLOR_FOREGROUND"\
+		-B "$COLOR_BACKGROUND"\
+		-g "$PANEL_GEOMETRY"\
+		-u $LINEHEIGHT &
+
+
+cat "$PANEL2_FIFO" \
+	| lemonbar \
+		-f "$FONT1"\
+		-f "$FONT2"\
+		-F "$COLOR_FOREGROUND"\
+		-B "$COLOR_BACKGROUND"\
+		-g "$PANEL_GEOMETRY_SECONDARY"\
+		-u $LINEHEIGHT &
+
+wait

@@ -17,6 +17,8 @@ URxvt*dynamicColors: on
 URxvt.urgentOnBell: true
 !URxvt*buffered: false
 URxvt.saveLines: 8192
+rxvt.print-pipe: "cat > /dev/null"
+URxvt.print-pipe: "cat > /dev/null"
 
 !Xft.autohint: 0
 !Xft.lcdfilter: lcddefault
@@ -70,7 +72,7 @@ XTerm*bolditalicFont: -*-terminesspowerline-bold-r-normal-*-14-*-*-*-*-*-*-*
 
 
 ! Fix font space
-URxvt.letterSpace: -1
+!URxvt.letterSpace: -1
 
 ! Xclock
 xclock*majorColor: #9a875f

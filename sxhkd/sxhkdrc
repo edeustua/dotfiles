@@ -1,0 +1,206 @@
+#
+# wm independent hotkeys
+#
+
+# Exit bspwm
+alt + shift + q
+	bspc quit 1 && pkill bar && pkill dzen2
+
+# Toggle panels
+alt + q
+	{pkill panel; pkill cat; pkill conky; bspc config top_padding 0; ,\
+	bspc config top_padding 16; $HOME/.config/bspwm/panel/panel &; }
+
+#
+# bspwm hotkeys
+#
+
+# Workstation Monitor
+alt + w
+	bspc monitor -f next
+
+# Close and kill node
+alt + {_, ctrl + } shift + x
+	bspc  node -{c,k}
+
+# Toggle tile
+alt + {_,shift +} t
+        state={floating,fullscreen}; \
+        bspc query -N -n "focused.$\{state\}" && state=tiled; \
+        bspc node -t "$state"
+
+# Lock node
+alt + shift + p
+	bspc node -t private
+
+# Balance tree
+alt + {b,e}
+	bspc node @/ {-B,-E}
+
+# Presel node for splitting
+alt + ctrl + {h,j,k,l}
+	bspc node -p "~"{west,south,north,east}
+
+# Move node into presel position
+alt + shift {a,s,d,f}
+	bspc node -n {west,south,north,east}
+
+# Select nodes, or move
+alt + {h,j,k,l}
+	DIR={west,south,north,east}; \
+	bspc node -f $DIR || bspc monitor -f $DIR
+	#bspc node -{f,s} $DIR || bspc node -f {prev, prev, next, next}
+
+alt + shift + {h,j,k,l}
+	DIR={west,south,north,east}; \
+	bspc node -s $DIR
+
+# Resize nodes
+alt + {a,f}
+	$HOME/scripts/node_move.sh {-p,-n} -x -s 20
+
+alt + {s,d}
+	$HOME/scripts/node_move.sh {-p,-n} -y -s 20
+
+# Move floating nodes (requires baskerville's xdo)
+alt + {Left,Right,Up,Down}
+    xdo move {-x -20,-x +20,-y -20,-y +20}
+
+# Resize floating nodes
+alt + shift + {Left,Right,Up,Down}
+    xdo resize {-w -20,-w +20,-h -20,-h +20}    bspc node -e {left -10,down +10,up -10,right +10} || {right -10,up +10,down -10,left +10}
+
+# Move current node to largest space
+alt + Return
+	bspc node -s biggest
+
+# Mirror and flip leaves of tree
+alt + {comma,period}
+	bspc node @/ --flip {horizontal,vertical}
+
+# Rotate leaves of tree
+alt + shift + {comma,period}
+	bspc node @/ -R {90,270}
+
+# Select previous / next desktop
+alt + {p,n}
+	bspc desktop -f {prev.occupied,next.occupied}
+
+# Lock a node from closing
+alt + Escape
+	bspc node -g locked
+
+# Toggle monocle
+alt + space
+	bspc desktop -l next
+
+# Toggle pseudotiled (floating in tile)
+alt + shift + space
+	bspc node -t pseudo_tiled
+
+# Focus on floating / tiled
+#alt + e
+#	bspc node -f {next.floating,next.tiled}
+
+# Change desktop padding
+alt + {_, shift} + bracketright
+	bspc config -d focused right_padding $((`bspc config -d focused right_padding` {+,-} 20 ))
+
+alt + {_, shift} + bracketleft
+	bspc config -d focused left_padding $((`bspc config -d focused left_padding` {+,-} 20 ))
+
+ctrl + {_, shift} + bracketright
+	bspc config -d focused bottom_padding $((`bspc config -d focused bottom_padding` {+,-} 20 ))
+
+ctrl + {_, shift} + bracketleft
+	bspc config -d focused top_padding $((`bspc config -d focused top_padding` {+,-} 20 ))
+
+alt + shift + {minus,equal}
+	sign={+,-}; \
+	bspc config -d focused right_padding $((`bspc config -d focused right_padding` $sign 20 )); \
+	bspc config -d focused left_padding $((`bspc config -d focused left_padding` $sign 20 )); \
+	bspc config -d focused bottom_padding $((`bspc config -d focused bottom_padding` $sign 20 )); \
+	bspc config -d focused top_padding $((`bspc config -d focused top_padding` $sign 20 ));
+
+
+# Change node gap
+alt + {minus,equal}
+	bspc config -d focused window_gap $((`bspc config -d focused window_gap` {+,-} 2 ))
+
+# Focus or move node to desktops
+alt + {_,shift + }{1-9,0}
+    /home/edeustua/.config/sxhkd/desktops.sh {1, 2} {1-9,10}
+
+#
+# Mouse bindings
+#
+
+# focus
+#~button1
+#	bspc pointer -g focus
+
+# Move or resize node
+#alt + button{1-3}
+#	bspc pointer -g {move,resize_side,resize_corner}
+#
+#alt + @button{1-3}
+#	bspc pointer -u
+
+#
+# Spawn programs
+#
+
+alt + shift + Return
+	urxvtc 
+
+alt + r
+#	$HOME/scripts/lens
+	rofi -show run
+
+alt + shift + b
+	google-chrome-stable
+
+alt + shift + n
+	xterm
+
+alt + z
+	zathura
+
+Print
+	scrot '%Y-%m-%d_$wx$h.png' -e 'mv $f /home/edeustua/Pictures/screenshots'
+
+#
+# Media keys
+#
+
+XF86AudioRaiseVolume
+	$HOME/.config/bspwm/panel/notify_volume + 5
+
+XF86AudioLowerVolume
+	$HOME/.config/bspwm/panel/notify_volume - 5
+
+XF86AudioMute
+	$HOME/.config/bspwm/panel/notify_volume -t
+
+XF86AudioPlay
+	playerctl play-pause
+
+XF86Calculator
+	bspc rule -a URxvt -o state=floating && urxvtc -e ipython
+
+XF86Launch5
+	urxvtc -e ssh cluster
+
+XF86Launch6
+	urxvtc -e ssh coupled
+
+XF86Mail
+	google-chrome-stable http://mail.chemistry.msu.edu
+
+super + l
+	slock
+
+
+# make sxhkd reload its configuration files:
+alt + shift + Escape
+	pkill -USR1 -x sxhkd

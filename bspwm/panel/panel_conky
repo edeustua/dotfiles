@@ -1,0 +1,29 @@
+short_units yes
+background yes
+out_to_console yes
+out_to_x no
+# Update interval in seconds
+update_interval 3
+
+#%{F\#FF1383bb}Kernel:%{F-} $kernel  \
+#S %{F\#FF773C4E}Kernel:%{F-} $kernel  %{F\#FF773C4E}IP:%{F-} ${addr eno1}  %{F\#FF773C4E}Uptime:%{F-} ${uptime_short}   |   %{F\#FF773C4E}%{F-} ${cpu}%%  %{F\#FF773C4E}%{F-} ${memperc}%% %{F\#FF773C4E}%{F-} ${fs_used_perc /}%%   |   %{F\#FF773C4E}%{F-} ${upspeed eno1} %{F\#FF773C4E}%{F-} ${downspeed eno1}   |   %{F\#FF773C4E}Date:%{F-} ${time %b %d}, ${time %I:%M %P} %{-u} 
+#%{F\#FF1383bb}IP:%{F-} ${addr eno1}  \
+#%{F\#FF1383bb}Uptime:%{F-} ${uptime_short}   |   \
+#spring color #FF1383bb
+#S %{F\#FF607271}In:%{F-} ${execi 60 /home/edeustua/scripts/temp_in.py}  \
+#%{F\#FF607271}Out:%{F-} ${execi 60 /home/edeustua/scripts/temp_out.py}  |  \
+#%{F\#FF607271}%{F-} ${cpu}%  \
+#%{F\#FF607271}%{F-} ${memperc}% \
+#%{F\#FF607271}%{F-} ${fs_used_perc /home}%  |  \
+#%{F\#FF607271}%{F-} ${upspeed eno1} \
+#%{F\#FF607271}%{F-} ${downspeed eno1}  |  \
+#%{F\#FF607271}Date:%{F-} ${time %a %b %d, %I:%M %P} 
+#S %{F\#FF607271}In:%{F-} ${execi 60 /home/edeustua/scripts/temp_in.py}  \
+#%{F\#FF607271}Out:%{F-} ${execi 60 /home/edeustua/scripts/temp_out.py}  |  \
+TEXT
+S %{F\#FF607271}%{F-} ${cpu}%  \
+%{F\#FF607271}%{F-} ${memperc}% \
+%{F\#FF607271}%{F-} ${fs_used_perc /home}%  |  \
+%{F\#FF607271}%{F-} ${upspeed eno1} \
+%{F\#FF607271}%{F-} ${downspeed eno1}  |  \
+%{F\#FF607271}Date:%{F-} ${time %a %b %d, %I:%M %P} 
